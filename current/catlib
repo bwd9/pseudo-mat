@@ -1,0 +1,43 @@
+#!/bin/bash
+
+echo 'combining libraries...'
+
+PARENT_DIR="5000mat_2atmtyp"
+CHILD1_DIR="2atmtyp_5000mutants_strength20"
+
+mkdir gen1and2
+cp -rf ./$PARENT_DIR/* ./gen1and2
+#cp -rf ./5000mat_2atmtyp/* ./gen1and2
+
+cd ./gen1and2
+
+for ((i = 0; i < 5000; i++))
+do
+
+	OLD_MAT_NAME="MAT-$i"
+	NEW_MAT_NAME="MAT-$(($i + 5001))"
+
+	mkdir "$NEW_MAT_NAME"
+
+	cp ../$CHILD1_DIR/$OLD_MAT_NAME/*.def ./$NEW_MAT_NAME
+        cp ../$CHILD1_DIR/$OLD_MAT_NAME/$OLD_MAT_NAME.cif ./$NEW_MAT_NAME/$NEW_MAT_NAME.cif
+
+#	HV_VALUE=$(cat ../$CHILD1_DIR/HVdata2col.txt | grep "$OLD_MAT_NAME" | awk '{print $2"\t"$3}')
+
+	HV_VALUE=$(cat ../$CHILD1_DIR/HVdata2col.txt | grep "$OLD_MAT_NAME " | awk '{print $2, $3}')
+	echo $NEW_MAT_NAME"   "$HV_VALUE >> ./HVdata2col.txt	
+	
+	SA_VALUE=$(cat ../$CHILD1_DIR/SAdata_m2_cc.txt | grep "$OLD_MAT_NAME " | awk '{print $2, $3}')
+	echo $NEW_MAT_NAME"   "$SA_VALUE >> ./SAdata_m2_cc.txt	
+done
+
+#for ((i = 0; i < 10001; i++))
+#do
+#	MAT_NAME="MAT-$i"
+#
+#	HV_LINE=$(cat ./HVdata2col.txt | grep "$MAT_NAME" | awk '{print $1, $2, $3}')
+#	echo $HV_LINE >> HVdata.txt
+#
+#	SA_LINE=$(cat ./SAdata_m2_cc.txt | grep "$MAT_NAME" | awk '{print $1, $2, $3}')
+#	echo $SA_LINE >> SAdata.txt
+#done
