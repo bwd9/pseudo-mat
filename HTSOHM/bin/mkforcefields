@@ -1,0 +1,13 @@
+#!/bin/bash
+#while [ -e "$(find ./ -name *.cif -printf '%h' -quit)" ]
+LIBRARY_SIZE=$1
+
+for (( i=0; i <= LIBRARY_SIZE; i++ ))
+do	
+	mkdir ~/RASPA-2.0-CF/share/raspa/forcefield/MAT-$i
+	cd MAT-$i
+	cp ./force_field_mixing_rules.def ~/RASPA-2.0-CF/share/raspa/forcefield/MAT-$i	
+	cp ./force_field.def ~/RASPA-2.0-CF/share/raspa/forcefield/MAT-$i/	
+	cp ./pseudo_atoms.def ~/RASPA-2.0-CF/share/raspa/forcefield/MAT-$i/
+	cd ..
+done

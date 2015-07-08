@@ -1,0 +1,65 @@
+cp: cannot stat `/bin/ch4simNOHVF': No such file or directory
+sed: can't read /scratch/2857784.clusman0a.frank.sam.pitt.edu/ch4simNOHVF: No such file or directory
+sed: can't read /scratch/2857784.clusman0a.frank.sam.pitt.edu/ch4simNOHVF: No such file or directory
+/var/spool/torque/mom_priv/jobs/2857784.clusman0a.frank.sam.pitt.edu.SC: line 33: source: /home/cwilmer/ark111/RASPA-2.0-CF/bin/simulate: cannot execute binary file
+cat: ./Output/System_0/output_MAT-0_*: No such file or directory
+cat: ./Output/System_0/output_MAT-0_*: No such file or directory
+cat: ./Output/System_0/output_MAT-0_*: No such file or directory
+cat: ./Output/System_0/output_MAT-0_*: No such file or directory
+cat: ./Output/System_0/output_MAT-0_*: No such file or directory
+cat: ./Output/System_0/output_MAT-0_*: No such file or directory
+cat: ./Output/System_0/output_MAT-0_*: No such file or directory
+cat: ./Output/System_0/output_MAT-0_*: No such file or directory
+cat: ./Output/System_0/output_MAT-0_*: No such file or directory
+sed: can't read /scratch/2857784.clusman0a.frank.sam.pitt.edu/ch4simNOHVF: No such file or directory
+sed: can't read /scratch/2857784.clusman0a.frank.sam.pitt.edu/ch4simNOHVF: No such file or directory
+/var/spool/torque/mom_priv/jobs/2857784.clusman0a.frank.sam.pitt.edu.SC: line 33: source: /home/cwilmer/ark111/RASPA-2.0-CF/bin/simulate: cannot execute binary file
+cat: ./Output/System_0/output_MAT-1_*: No such file or directory
+cat: ./Output/System_0/output_MAT-1_*: No such file or directory
+cat: ./Output/System_0/output_MAT-1_*: No such file or directory
+cat: ./Output/System_0/output_MAT-1_*: No such file or directory
+cat: ./Output/System_0/output_MAT-1_*: No such file or directory
+cat: ./Output/System_0/output_MAT-1_*: No such file or directory
+cat: ./Output/System_0/output_MAT-1_*: No such file or directory
+cat: ./Output/System_0/output_MAT-1_*: No such file or directory
+cat: ./Output/System_0/output_MAT-1_*: No such file or directory
+mkdir: cannot create directory `CH4data_MAT-0.thru.5': File exists
+sed: can't read /scratch/2857784.clusman0a.frank.sam.pitt.edu/ch4simNOHVF: No such file or directory
+sed: can't read /scratch/2857784.clusman0a.frank.sam.pitt.edu/ch4simNOHVF: No such file or directory
+/var/spool/torque/mom_priv/jobs/2857784.clusman0a.frank.sam.pitt.edu.SC: line 33: source: /home/cwilmer/ark111/RASPA-2.0-CF/bin/simulate: cannot execute binary file
+cat: ./Output/System_0/output_MAT-2_*: No such file or directory
+cat: ./Output/System_0/output_MAT-2_*: No such file or directory
+cat: ./Output/System_0/output_MAT-2_*: No such file or directory
+cat: ./Output/System_0/output_MAT-2_*: No such file or directory
+cat: ./Output/System_0/output_MAT-2_*: No such file or directory
+cat: ./Output/System_0/output_MAT-2_*: No such file or directory
+cat: ./Output/System_0/output_MAT-2_*: No such file or directory
+cat: ./Output/System_0/output_MAT-2_*: No such file or directory
+cat: ./Output/System_0/output_MAT-2_*: No such file or directory
+mkdir: cannot create directory `CH4data_MAT-0.thru.5': File exists
+sed: can't read /scratch/2857784.clusman0a.frank.sam.pitt.edu/ch4simNOHVF: No such file or directory
+sed: can't read /scratch/2857784.clusman0a.frank.sam.pitt.edu/ch4simNOHVF: No such file or directory
+/var/spool/torque/mom_priv/jobs/2857784.clusman0a.frank.sam.pitt.edu.SC: line 33: source: /home/cwilmer/ark111/RASPA-2.0-CF/bin/simulate: cannot execute binary file
+cat: ./Output/System_0/output_MAT-3_*: No such file or directory
+cat: ./Output/System_0/output_MAT-3_*: No such file or directory
+cat: ./Output/System_0/output_MAT-3_*: No such file or directory
+cat: ./Output/System_0/output_MAT-3_*: No such file or directory
+cat: ./Output/System_0/output_MAT-3_*: No such file or directory
+cat: ./Output/System_0/output_MAT-3_*: No such file or directory
+cat: ./Output/System_0/output_MAT-3_*: No such file or directory
+cat: ./Output/System_0/output_MAT-3_*: No such file or directory
+cat: ./Output/System_0/output_MAT-3_*: No such file or directory
+mkdir: cannot create directory `CH4data_MAT-0.thru.5': File exists
+sed: can't read /scratch/2857784.clusman0a.frank.sam.pitt.edu/ch4simNOHVF: No such file or directory
+sed: can't read /scratch/2857784.clusman0a.frank.sam.pitt.edu/ch4simNOHVF: No such file or directory
+/var/spool/torque/mom_priv/jobs/2857784.clusman0a.frank.sam.pitt.edu.SC: line 33: source: /home/cwilmer/ark111/RASPA-2.0-CF/bin/simulate: cannot execute binary file
+cat: ./Output/System_0/output_MAT-4_*: No such file or directory
+cat: ./Output/System_0/output_MAT-4_*: No such file or directory
+cat: ./Output/System_0/output_MAT-4_*: No such file or directory
+cat: ./Output/System_0/output_MAT-4_*: No such file or directory
+cat: ./Output/System_0/output_MAT-4_*: No such file or directory
+cat: ./Output/System_0/output_MAT-4_*: No such file or directory
+cat: ./Output/System_0/output_MAT-4_*: No such file or directory
+cat: ./Output/System_0/output_MAT-4_*: No such file or directory
+cat: ./Output/System_0/output_MAT-4_*: No such file or directory
+mkdir: cannot create directory `CH4data_MAT-0.thru.5': File exists

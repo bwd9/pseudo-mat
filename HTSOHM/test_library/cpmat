@@ -1,0 +1,11 @@
+#!/bin/bash
+#while [ -e "$(find ./ -name *.cif -printf '%h' -quit)" ]
+
+LIBRARY_SIZE=$1
+
+for (( i=0; i <= LIBRARY_SIZE; i++ ))
+do	
+	cd *MAT-$i
+	cp *.cif ~/RASPA-2.0-CF/share/raspa/structures/cif/
+	cd ..
+done

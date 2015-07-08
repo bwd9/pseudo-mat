@@ -1,0 +1,29 @@
+material4
+
+loop_
+_symmetry_equiv_pos_as_xyz
+  x,y,z
+_cell_length_a          18.6516
+_cell_length_b          19.3157
+_cell_length_c          16.2923
+_cell_angle_alpha       90.0000
+_cell_angle_beta        90.0000
+_cell_angle_gamma       90.0000
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_charge
+#NET CHARGE: 1.33226762955e-15
+A_3     C     0.1608     0.673     0.6138    1.9976
+A_0     C     0.2145     0.9319     0.9207    -6.4543
+A_1     C     0.9651     0.0     0.0    -0.9746
+A_1     C     0.9114     0.1553     0.1841    -0.9746
+A_0     C     0.8578     0.3106     0.4297    -6.4543
+A_2     C     0.3217     0.2071     0.7365    10.8142
+A_1     C     0.2681     0.1035     0.6752    -0.9746
+A_1     C     0.2681     0.7766     0.1841    -0.9746
+A_3     C     0.9114     0.6213     0.0614    1.9976
+A_3     C     0.5361     0.7248     0.0    1.9976

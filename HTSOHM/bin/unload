@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo 'removing old forcefields ...'
+rm -rf ~/RASPA-2.0-CF/share/raspa/forcefield/MAT-*
+echo ' ...done!'
+
+echo 'removing old .cif-files ...'
+rm -rf ~/RASPA-2.0-CF/share/raspa/structures/cif/MAT-*.cif
+echo ' ...done!'
+
+#echo 'loading new forcefields ...'
+#./mkforcefields
+#echo ' ...done!'
+
+#echo 'loading new .cif-files ...'
+#./cpmat
+#echo ' ...done!'

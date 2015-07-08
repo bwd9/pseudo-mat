@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo 'running cat...'
+#he
+
+for ((i=0; i <= 5001; i++))
+do
+	cat *SA_MAT-$i.*/*A2.txt >> ./SAdata_A2.txt
+	cat *SA_MAT-$i.*/*cc.txt >> ./SAdata_m2_cc.txt
+	cat *SA_MAT-$i.*/*g.txt >> ./SAdata_m2_g.txt
+done
+echo 'done!'

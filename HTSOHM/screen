@@ -1,0 +1,40 @@
+#!/bin/bash
+
+LIBRARY_DIR=$1
+LIBRARY_SIZE=$2
+
+if ((LIBRARY_SIZE < 100))
+	then
+		NUM_PROC=1
+fi
+
+if ((LIBRARY_SIZE >= 100))
+	then
+		NUM_PROC=$((LIBRARY_SIZE / 100))
+fi
+
+export HTSOHM_DIR=${HOME}/HTSOHM
+export LIB_DIR=${HOME}/HTSOHM/$LIBRARY_DIR
+
+echo 'removing old .cif files and forcefields...'
+source $HTSOHM_DIR/bin/unload
+
+cd $LIB_DIR
+echo $PWD
+cp $HTSOHM_DIR/bin/cpmat .
+echo 'loading .cif files...'
+source cpmat $LIBRARY_SIZE
+
+cd $LIB_DIR
+cp $HTSOHM_DIR/bin/mkforcefields .
+echo 'loading forcefields...'
+source mkforcefields $LIBRARY_SIZE
+
+cd ../bin
+echo 'submitting jobs ...'
+source qsub_master 0 $LIBRARY_SIZE $NUM_PROC qsubCH4_noHVF
+source qsub_master 0 $LIBRARY_SIZE $NUM_PROC qsubSA
+source qsub_master 0 $LIBRARY_SIZE $NUM_PROC qsubHV
+
+cd ..
+echo ' ... done!'

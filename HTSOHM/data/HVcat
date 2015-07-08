@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo 'running cat...'
+#he
+
+for ((i=0; i <= 5001; i++))
+do
+	cat HVdata_MAT-$i.*/HVdata.txt >> ./HVdata.txt
+	cat HVdata_MAT-$i.*/HVdata2col.txt >> ./HVdata2col.txt
+done
+echo 'done!'
