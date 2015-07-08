@@ -10,7 +10,7 @@ Directories:
 
 HTSOHM, "high-throughput screening of hypothetical materials"
 
-The scripts found here can be used to generate a seed population, distribute calculations done with RASPA-2.0-CF, and mutate materials to your hearts content!
+The scripts found here can be used to generate a seed population, distribute calculations done with RASPA-2.0-CF across a cluster using qsub, and mutate materials to your heart's content!
 
 
 dev
