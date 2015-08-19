@@ -2,16 +2,38 @@ from random import choice, random, randrange
 from math import fsum
 import os
 import numpy as np
+# import functools need in Python 3 or greater
 
-def generate(N, ATOM_TYPES, ndenmax=0.04302, ndenmin=0.0000013905, xmax=51.2, xmin=25.6, ymax=51.2, ymin=25.6,
-zmax=51.2, zmin=25.6, epmax=513.264, epmin=1.2580, sigmax=6.549291, sigmin=1.052342, qmax=0.0, qmin=0.0):
+
+def GCD(a,b):
+	while b:
+		a, b = b, a % b
+	return a
+		
+def LCM(a,b):
+	return a * b // GCD(a,b)
+
+def LCMM(*args):
+	return reduce(LCM, args)
+	
+def generate(
+N, ATOM_TYPES, 
+ndenmax=0.004302, ndenmin=0.000013905, 
+xmax=52.3940, xmin=14.8193, 
+ymax=52.3940, ymin=14.8193, 
+zmax=52.3940, zmin=14.8193, 
+epmax=410.6115, epmin=2.0128, 
+sigmax=5.2394, sigmin=1.6834, 
+qmax=6.0,
+elem_charge=0.0001):
+
 #epmax DEFINED WRT TO X-Y-Z LIMITS?
 #max number density based on that of pure Iron
 #max unit cell dimensions based on PCN-777 cages size
 #max LJ parameters (for now using 1.5x highest values in GenericMOFs)
 #max charge... UFF?
 
-    #ATOM_TYPES = 4
+#    ATOM_TYPES = 10
 
     if type(N) != int:
         print 'N must be an integer.'
@@ -25,35 +47,10 @@ zmax=51.2, zmin=25.6, epmax=513.264, epmin=1.2580, sigmax=6.549291, sigmin=1.052
     sigtag = str(xmax)
     qtag = str(xmax)
     
-    top_path = ('materials' + '_' + Ntag + '.' + ntag + '_' + xtag + '.' + ytag
-		 + '.' + ztag + '_' + eptag + '.' + sigtag + '_' + qtag)
-    
+    top_path = (Ntag + 'mat_' + str(ATOM_TYPES) + 'atmtyp')
+   
     if not os.path.exists(top_path):
         os.mkdir(top_path) 
-
-#    def drange(start, stop, step):
-#        r = start
-#        while r < stop:
-#            yield r
-#            r+= step
-    
-#    nden0 = drange(1, ndenmax*10000, ndenp*10000)
-#    ndendim = [nden for nden in nden0]
-    
-#    x0 = drange(0, xmax + xp, xp)
-#    xdim = [x for x in x0]
-    
-#    y0 = drange(0, ymax + yp, yp)
-#    ydim = [y for y in y0]
-    
-#    z0 = drange(0, zmax + zp, zp)
-#    zdim = [z for z in z0]
-    
-#    ep0 = drange(0, epmax + epp, epp)
-#    epdim = [ep for ep in ep0]
-#    sig0 = drange(0, sigmax + sigp, sigp)
-#    sigdim = [sig for sig in sig0]   
-
 
     #open mat_stats.txt, to track material data    
     mat_stats = open(os.path.abspath(top_path)+ '/mat_stats.txt', 'w')
@@ -91,22 +88,15 @@ zmax=51.2, zmin=25.6, epmax=513.264, epmin=1.2580, sigmax=6.549291, sigmin=1.052
         force_field = open(os.path.abspath(top_path) + '/'+mat_name +
 			'/force_field.def', 'w')
 
- 	#nden_ = choice(ndendim)/10000.
-        #xdim_ = choice(xdim)
-        #ydim_ = choice(ydim)
-        #zdim_ = choice(zdim)
-        #nden_ = randrange(0.0001, ndenmax, 1)
-        #xdim_ = randrange(15., xmax, 0.1)
-	#ydim_ = randrange(15., ymax, 0.1)
-        #zdim_ = randrange(15., zmax, 0.1)
-        #N_ = xdim_ * ydim_ * zdim_ * nden_
-        #n_ = int(N_)        
-        nden_ = round(random() * (ndenmax - ndenmin) + ndenmin, 6)
 	xdim_ = round(random() * (xmax - xmin) + xmin, 4)
         ydim_ = round(random() * (ymax - ymin) + ymin, 4)
         zdim_ = round(random() * (zmax - zmin) + zmin, 4)
-        N_ = xdim_ * ydim_ * zdim_ * nden_
-        n_ = int(N_)
+        
+        Nmax = int(ndenmax * xdim_ * ydim_ * zdim_)
+        n_ = randrange(2, Nmax, 1)
+        nden_ = round(n_ / (xdim_ * ydim_ * zdim_))
+        #N_ = xdim_ * ydim_ * zdim_ * nden_
+        #n_ = int(N_)
 
         cif_heading = ('material' + str(i) + 
 			'\n\nloop_\n' +
@@ -123,14 +113,8 @@ zmax=51.2, zmin=25.6, epmax=513.264, epmin=1.2580, sigmax=6.549291, sigmin=1.052
 			'_atom_site_type_symbol\n' +
 			'_atom_site_fract_x\n' +
 			'_atom_site_fract_y\n' +
-			'_atom_site_fract_z\n' +
-			'_atom_site_charge\n')
+			'_atom_site_fract_z\n')
 	cif_file.write(cif_heading)
-
-#        mixing_heading = ('# general rule for shifted vs truncated\nshifted\n' +
-#			'# general rule for tailcorrections\nno\n' +
-#			'# number of defined interactions\n' + str(108) +  #check these + XXX values
-#			'\n# type interaction\n')
 
         mixing_heading = ('# general rule for shifted vs truncated\n' +
                           'shifted\n' +
@@ -148,64 +132,6 @@ zmax=51.2, zmin=25.6, epmax=513.264, epmin=1.2580, sigmax=6.549291, sigmin=1.052
 			'   anisotrop-type  tinker-type\n')
         pseudo_atoms.write(pseudo_heading)
         
-        ##make charges
-        #q = []
-       	#for k in range(n_ + 1):
-        #    q.append(0)
-        #for l in range(5*(n_ + 1)):
-        #    m = choice(range(n_ + 1))
-        #    n = choice(range(n_ + 1))
-        #    if m == n:
-        #        n = choice(range(n_ + 1))
-        #    dq = random() * qmax
-        #    if q[m] + dq <= qmax and q[n] - dq >= -1 * qmax:
-        #        q[m] = float(float(q[m]) + dq)
-        #        q[n] = float(float(q[n]) - dq)
-        #    if q[m] > qmax or q[n] < -1 * qmax:
-        #        q[m] = q[m] - dq
-        #        q[n] = q[n] + dq
-        #for o in range(5*(n_ + 1)):
-        #    m = choice(range(n_ + 1))
-        #    n = choice(range(n_ + 1))
-        #    if m == n:
-        #        n = choice(range(n_ + 1))
-        #    dq = random() * qmax
-        #    if q[m] + dq <= qmax and q[n] - dq >= -1 * qmax:
-        #        q[m] = float(float(q[m]) + dq)
-        #        q[n] = float(float(q[n]) - dq)
-        #    if q[m] > qmax or q[n] < -1 * qmax:
-        #        q[m] = q[m] - dq
-        #        q[n] = q[n] + dq
-        #p = choice(range(n_ + 1))
-        #q[p] = q[p] - sum(q)
-        #if sum(q) != 0.000000000000000000000:
-        #    for l in range(5*(n_ + 1)):
-        #        m = choice(range(n_ + 1))
-        #        n = choice(range(n_ + 1))
-        #        if m == n:
-        #            n = choice(range(n_ + 1))
-        #        dq = random() * qmax
-        #        if q[m] + dq <= qmax and q[n] - dq >= -1 * qmax:
-        #            q[m] = float(float(q[m]) + dq)
-        #            q[n] = float(float(q[n]) - dq)
-        #        if q[m] > qmax or q[n] < -1 * qmax:
-        #            q[m] = q[m] - dq
-        #            q[n] = q[n] + dq
-        #    for o in range(5*(n_ + 1)):
-        #        m = choice(range(n_ + 1))
-        #        n = choice(range(n_ + 1))
-        #        if m == n:
-        #            n = choice(range(n_ + 1))
-        #        dq = random() * qmax
-        #        if q[m] + dq <= qmax and q[n] - dq >= -1 * qmax:
-        #            q[m] = float(float(q[m]) + dq)
-        #            q[n] = float(float(q[n]) - dq)
-        #        if q[m] > qmax or q[n] < -1 * qmax:
-        #            q[m] = q[m] - dq
-        #            q[n] = q[n] + dq
-        #        p = choice(range(n_ + 1))
-        #        q[p] = q[p] - sum(q)
-	
         #LJ parameters
 
 	ep = []
@@ -237,38 +163,39 @@ zmax=51.2, zmin=25.6, epmax=513.264, epmin=1.2580, sigmax=6.549291, sigmin=1.052
             n_atoms = np.vstack([n_atoms, atoms[atomtype, :]])
     
         IDs = n_atoms[:,0]
-
-        for i in range(ATOM_TYPES):
+		count = []
+		for i in range(ATOM_TYPES):
             if i in IDs:
-                charge = round(random() * (qmax - qmin) + qmin, 4)
-                weight_i = list(IDs).count(i)
-                k = choice(IDs)
-                weight_k = list(IDs).count(k)
-                for j in range(n_):
-                    if n_atoms[j,0] == i:
-                        n_atoms[j,3] = n_atoms[j,3] + charge * int(weight_k)
-			atoms[i,3] = n_atoms[j,3] + charge * int(weight_k)
-                    if n_atoms[j,0] == k:
-                        n_atoms[j,3] = n_atoms[j,3] - charge * int(weight_i)
-                        atoms[k,3] = n_atoms[j,3] - charge * int(weight_i)
-
-#        for i in range(100):
-#            atoms[i,3] = round(atoms[i,3], 4)
-
-#        for i in range(n_):
-#            n_atoms[i,3] = round(n_atoms[i,3], 4)
-
-
-
-#        net_charge = sum(n_atoms[:,3])
-#        if net_charge != 0:
-#            atomID = choice(range(100))
-#            weight = list(IDs).count(atomID)
-#            atoms[atomID,3] = atoms[atomID,3] - net_charge/weight
-#            for i in range(n_):
-#                if n_atoms[i,0] == atomID:
-#                    n_atoms[atomID,3] = n_atoms[atomID,3] - net_charge/weight
-
+                count_i = list(IDs).count(i)
+				count.append(count_i)
+		
+		temp_LCM = LCMM(*count)
+		
+		cm_max = floor(qmax/(temp_LCM*elem_charge/min(count)))
+		
+		cm_list = []
+		for i in range(ATOM_TYPES - 1):
+			cm_i = np.randrange(-1 * cm_max, cm_max, 1)
+			cm_list.append(cm_i)
+			
+			atoms[i, 3] = cm_i * temp_LCM * elem_charge / count[i]
+		
+		cm_f = -1 * sum(cm_list)
+		atoms[ATOM_TYPES, 3] = cm_f * temp_LCM * elem_charge / count[ATOM_TYPES]
+		
+#        for i in range(ATOM_TYPES):
+#@            if i in IDs:
+#               charge = round(random() * (qmax - qmin) + qmin, 4)
+                # weight_i = list(IDs).count(i)
+                # k = choice(IDs)
+                # weight_k = list(IDs).count(k)
+                # for j in range(n_):
+                    # if n_atoms[j,0] == i:
+                        # n_atoms[j,3] = n_atoms[j,3] + charge * int(weight_k)
+			# atoms[i,3] = n_atoms[j,3] + charge * int(weight_k)
+                    # if n_atoms[j,0] == k:
+                        # n_atoms[j,3] = n_atoms[j,3] - charge * int(weight_i)
+                        # atoms[k,3] = n_atoms[j,3] - charge * int(weight_i)
 
         mat_charge = str(sum(n_atoms[:,3]))
 	cif_file.write('#NET CHARGE: ' + mat_charge + '\n')
@@ -298,63 +225,13 @@ zmax=51.2, zmin=25.6, epmax=513.264, epmin=1.2580, sigmax=6.549291, sigmin=1.052
 
         for i in range(n_):
 #FIX THIS TO ALLOW FOR NON-INT VALUES?
-            x = choice(range(int(xdim_ + 1)))
-            y = choice(range(int(ydim_ + 1)))
-            z = choice(range(int(zdim_ + 1)))
+            x = round(random(), 4)
+            y = round(random(), 4)
+            z = round(random(), 4)
             
             atom_X_cif = ('A_' + str(int(n_atoms[i,0])) + '     ' + 'C     ' + 
-                          str(round(x/xdim_, 4)) + '     ' + str(round(y/ydim_, 4)) + 
-                          '     ' + str(round(z/zdim_, 4)) + '    ' +
-                          str(n_atoms[i,3]) + '\n')    
+                          str(x) + '     ' + str(y) + '     ' + str(z) + '\n')    
             cif_file.write(atom_X_cif)
-
-
-
-        #    #ep = choice(epdim)
-        #    #sig = choice(sigdim)
-        #    epval = ep[atomtype]
-        #    sigval = sig[atomtype]
-        #    charge = q[n_]
-        #    #if charge < 0:
-        #    atom_X_cif = ('A' + str(atomtype) + '     ' + 'C     ' + 
-	#			str(x/xdim_) + '     ' + str(y/ydim_) + 
-	#			'     ' + str(z/zdim_) + '    ' +
-	#			str(charge) + '\n')    
-        #    cif_file.write(atom_X_cif)
-        #    for k in range(100):
-        #        if k != atomtype:
-        #            atom_X_pseudo = ('A' + str(k) + '   yes   C   C   0   12.0   0' +
-	#			     '   0.0   0.0   1.0  1.00   0   ' +
-	#			     '0  absolute   0\n')
-        #        if k == atomtype:
-        #            atom_X_pseudo = ('A' + str(k) + '   yes   C   C   0   12.0   ' +
-	#			     str(q[n_]) + '   0.0   0.0   1.0  1.00   0   ' +
-	#			     '0  absolute   0\n')
-        #            
-        #            pseudo_atoms.write(atom_X_pseudo)
-        #             
-        #            atom_X_mixing = ('A' + str(k) + '          LENNARD_JONES     ' +
-	#			     str(ep[k]) + '     ' + str(sig[k]) + '\n')
-        #            mixing_rules.write(atom_X_mixing)
-
- 
-
-            #if charge >= 0:
-            #    atom_X_cif = ('A' + str(atomtype) + '     ' + str(x) + '     ' +
-		#		str(y) + '     ' + str(z) + '     ' +
-		#		str(charge) + '\n')
-		#cif_file.write(atom_X_cif)
-             	
-        #for i in range(100):
-
-         #   atom_X_mixing = ('A' + str(i) + '          LENNARD_JONES     ' +
-	#			str(ep[i]) + '     ' + str(sig[i]) + '\n')
-         #   mixing_rules.write(atom_X_mixing)
-#
- #           atom_X_pseudo = ('A' + str(i) + '   yes   C   C   0   12.0   ' +
-#				str(q[i]) + '   0.0   0.0   1.0  1.00   0   ' +
-#				'0  absolute   0\n')
- ##           pseudo_atoms.write(atom_X_pseudo)
  
 #SUPPORTED ADSORBATES
 # name         pseudo-atoms
@@ -365,16 +242,7 @@ zmax=51.2, zmin=25.6, epmax=513.264, epmin=1.2580, sigmax=6.549291, sigmin=1.052
 # hydrogen :   H_h2; H_com
 # H2       :   H_h2; H_com
 
-        #adsorbate_mixing = ('N_n2        LENNARD_JONES   36.0     3.31\n' +
-	#		'N_com       none\n' +
-	#		'C_co2       LENNARD_JONES   27.0     2.80\n' +
-	#		'O_co2       LENNARD_JONES   79.0     3.05\n' +
-	#		'CH4_sp3     LENNARD_JONES   158.5    3.72\n' +
-	#		'He          LENNARD_JONES   10.9     2.64\n' +
-	#		'H_h2        none\n' +
-	#		'H_com       LENNARD_JONES   36.7     2.958\n' +
-	#		'# general mixing rule for Lennard-Jones\n' +
-	#		'Lorentz-Berthlot')
+
         adsorbate_mixing = ('N_n2        lennard-jones   36.0     3.31\n' +
                             'N_com       none\n' +
                             'C_co2       lennard-jones   27.0     2.80\n' +
