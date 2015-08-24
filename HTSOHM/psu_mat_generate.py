@@ -4,28 +4,31 @@ import os
 import numpy as np
 # import functools need in Python 3 or greater
 
-
+#define the greatest common divisor for use in charge calculation
 def GCD(a,b):
 	while b:
 		a, b = b, a % b
 	return a
-		
+	
+#define the lowest common multiple (two args) for use in charge calculation
 def LCM(a,b):
 	return a * b // GCD(a,b)
 
+#define lowest common multiple (multiple args) for use in charge calculation
 def LCMM(*args):
 	return reduce(LCM, args)
-	
+
+#main function (two inputs: N (number of materials) and ATOM_TYPES (number of atom types)	
 def generate(
 N, ATOM_TYPES, 
 ndenmax=0.004302, ndenmin=0.000013905, 
 xmax=52.3940, xmin=14.8193, 
 ymax=52.3940, ymin=14.8193, 
-zmax=52.3940, zmin=14.8193, 
-epmax=410.6115, epmin=2.0128, 
-sigmax=5.2394, sigmin=1.6834, 
+zmax=52.3940, zmin=14.8193,    #unit cell parameters
+epmax=410.6115, epmin=2.0128,  #LJ potentials (epsilon and sigma)
+sigmax=5.2394, sigmin=1.6834,  #maximum charge (change to 3.0 for Blake's simulations
 qmax=6.0,
-elem_charge=0.0001):
+elem_charge=0.0001):           #define an elementary charge to control sig figs
 
 #epmax DEFINED WRT TO X-Y-Z LIMITS?
 #max number density based on that of pure Iron
@@ -121,11 +124,11 @@ elem_charge=0.0001):
                           '# general rule tailcorrections\n' +
                           'no\n' +
                           '# number of defined interactions\n' +
-                          str(ATOM_TYPES + 8) + '\n' +
+                          str(ATOM_TYPES + 10) + '\n' +
                           '# type interaction, parameters.    IMPORTANT: define shortest matches first, so that more specific ones overwrites these\n')
         mixing_rules.write(mixing_heading)
         
-        pseudo_heading = ('#number of pseudo atoms\n' + str(ATOM_TYPES + 8) + 
+        pseudo_heading = ('#number of pseudo atoms\n' + str(ATOM_TYPES + 10) + 
 			'\n#type          print    as     chem     oxidation' +
 			'     mass       charge     polarization     ' +
 			'B-factor     radii    connectivity     anisotropic' +
@@ -157,6 +160,8 @@ elem_charge=0.0001):
 
         atoms = np.hstack((ID, ep, sig, q))
 
+
+	#Begin charge calculation
         n_atoms = np.empty([0, 4])
         for i in range(n_):
             atomtype = choice(range(ATOM_TYPES))
@@ -182,7 +187,8 @@ elem_charge=0.0001):
 		
 		cm_f = -1 * sum(cm_list)
 		atoms[ATOM_TYPES, 3] = cm_f * temp_LCM * elem_charge / count[ATOM_TYPES]
-		
+	
+	#old charging method	
 #        for i in range(ATOM_TYPES):
 #@            if i in IDs:
 #               charge = round(random() * (qmax - qmin) + qmin, 4)
@@ -241,6 +247,7 @@ elem_charge=0.0001):
 # helium   :   He
 # hydrogen :   H_h2; H_com
 # H2       :   H_h2; H_com
+# O2        :   O_o2; O_com
 
 
         adsorbate_mixing = ('N_n2        lennard-jones   36.0     3.31\n' +
@@ -251,6 +258,8 @@ elem_charge=0.0001):
                             'He          lennard-jones   10.9     2.64\n' +
                             'H_h2        none\n' +
                             'H_com       lennard-jones   36.7     2.958\n' +
+                            'O_o2        lennard-jones   49.0     3.02\n' +
+                            'O_com       none\n' +
                             '# general mixing rule for Lennard-Jones\n' +
                             'Lorentz-Berthelot')
         mixing_rules.write(adsorbate_mixing)
@@ -270,6 +279,10 @@ elem_charge=0.0001):
 			'H_h2     yes   H   H   0   1.00794     0.468' +
 			'    0.0   1.0   0.7   0   0   relative   0\n' +
 			'H_com    no    H   H   0   0.0        - 0.936' +
+			'   0.0   1.0   0.7   0   0   relative   0\n'
+			'O_o2     yes   O   O   0   15.9994   -0.112' +
+			   0.0  1.0   0.7   0   0   relative   0\n' +
+			'O_com   no   O   O   0   0.0   0.224' +
 			'   0.0   1.0   0.7   0   0   relative   0\n')
         pseudo_atoms.write(adsorbate_pseudo)
         
