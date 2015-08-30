@@ -27,7 +27,7 @@ ymax=52.3940, ymin=14.8193,
 zmax=52.3940, zmin=14.8193,    #unit cell parameters
 epmax=410.6115, epmin=2.0128,  #LJ potentials (epsilon and sigma)
 sigmax=5.2394, sigmin=1.6834,  #maximum charge (change to 3.0 for Blake's simulations
-qmax=6.0,
+qmax=3.0,
 elem_charge=0.0001):           #define an elementary charge to control sig figs
 
 #epmax DEFINED WRT TO X-Y-Z LIMITS?
