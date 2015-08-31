@@ -279,7 +279,7 @@ elem_charge=0.0001):           #define an elementary charge to control sig figs
 			'H_h2     yes   H   H   0   1.00794     0.468' +
 			'    0.0   1.0   0.7   0   0   relative   0\n' +
 			'H_com    no    H   H   0   0.0        - 0.936' +
-			'   0.0   1.0   0.7   0   0   relative   0\n'
+			'   0.0   1.0   0.7   0   0   relative   0\n' +
 			'O_o2     yes   O   O   0   15.9994   -0.112' +
 			   0.0  1.0   0.7   0   0   relative   0\n' +
 			'O_com   no   O   O   0   0.0   0.224' +
